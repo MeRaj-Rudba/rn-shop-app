@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet } from "react-native";
 import { createStore, combineReducers } from "redux";
@@ -8,12 +9,13 @@ import * as Font from "expo-font";
 
 import productReducer from "./store/reducers/products";
 import cartReducer from "./store/reducers/cart";
+import orderReducer from "./store/reducers/order";
 import ShopNavigator from "./navigation/ShopNavigator";
-import { useState } from "react";
 
 const rootReducer = combineReducers({
   products: productReducer,
   cart: cartReducer,
+  orders: orderReducer,
 });
 
 const store = createStore(rootReducer);
