@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, Platform, Button } from "react-native";
 import Colors from "../../constants/Colors";
+import Card from "../UI/Card";
 import CartItem from "./CartItem";
 
 function OrderItem(props) {
   const [showDetails, setShowDetails] = useState(false);
 
   return (
-    <View style={styles.itemContainer}>
+    <Card style={styles.itemContainer}>
       <View style={styles.summary}>
         <Text style={styles.totalAmount}>$ {props.amount.toFixed(2)}</Text>
         <Text style={styles.date}>{props.date}</Text>
@@ -29,22 +30,12 @@ function OrderItem(props) {
           ))}
         </View>
       )}
-    </View>
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
   itemContainer: {
-    shadowColor: "black",
-    shadowOpacity: 0.26,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowRadius: 8,
-    elevation: 5,
-    borderRadius: 10,
-    backgroundColor: "white",
     margin: 20,
     padding: 10,
     alignItems: "center",
@@ -71,7 +62,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderColor: "#888",
     borderWidth: 0.5,
-    borderRadius: 10,
+    borderRadius: 5,
   },
 });
 

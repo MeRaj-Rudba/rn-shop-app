@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, FlatList, Button } from "react-native";
+import { StyleSheet, Alert, FlatList, Button } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -12,7 +12,21 @@ import * as productAction from "../../store/actions/products";
 function UserProductScreen(props) {
   const userProducts = useSelector((state) => state.products.userProducts);
   const { navigation, route } = props;
+
   const dispatch = useDispatch();
+
+  const deleteHandler = (id) => {
+    Alert.alert("Are You sure?", "Do you really want to delete this item?", [
+      { text: "No", style: "default" },
+      {
+        text: "Yes",
+        style: "destructive",
+        onPress: () => {
+          dispatch(productAction.deleteProduct(id));
+        },
+      },
+    ]);
+  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -28,21 +42,52 @@ function UserProductScreen(props) {
           />
         </HeaderButtons>
       ),
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+          <Item
+            title="create"
+            iconName="plus"
+            onPress={() => {
+              navigation.navigate("EditProduct", {
+                editMode: false,
+              });
+            }}
+          />
+        </HeaderButtons>
+      ),
     });
   }, [navigation]);
+
+  const editProductHandler = (id) => {
+    navigation.navigate("EditProduct", {
+      productId: id,
+      editMode: true,
+    });
+  };
 
   return (
     <FlatList
       data={userProducts}
       keyExtractor={(item) => item.id}
       renderItem={(itemData) => (
-        <ProductItem product={itemData.item} onSelect={() => {}}>
-          <Button color={Colors.primary} title="Edit" onPress={() => {}} />
+        <ProductItem
+          product={itemData.item}
+          onSelect={() => {
+            editProductHandler(itemData.item.id);
+          }}
+        >
+          <Button
+            color={Colors.primary}
+            title="Edit"
+            onPress={() => {
+              editProductHandler(itemData.item.id);
+            }}
+          />
           <Button
             color={Colors.primary}
             title="Delete"
             onPress={() => {
-              dispatch(productAction.deleteProduct(itemData.item.id));
+              deleteHandler(itemData.item.id);
             }}
           />
         </ProductItem>

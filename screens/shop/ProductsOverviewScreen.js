@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { StyleSheet, View, FlatList, Text, Button } from "react-native";
+import { StyleSheet, FlatList, Button } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 

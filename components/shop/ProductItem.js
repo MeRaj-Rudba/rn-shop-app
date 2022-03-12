@@ -10,6 +10,7 @@ import {
   Platform,
 } from "react-native";
 import Colors from "../../constants/Colors";
+import Card from "../UI/Card";
 
 function ProductItem(props) {
   let Touchable = TouchableOpacity;
@@ -19,7 +20,7 @@ function ProductItem(props) {
   }
 
   return (
-    <View style={styles.product}>
+    <Card style={styles.product}>
       <Touchable onPress={props.onSelect} useForground>
         <View>
           <View style={styles.imageContainer}>
@@ -35,22 +36,12 @@ function ProductItem(props) {
           <View style={styles.actions}>{props.children}</View>
         </View>
       </Touchable>
-    </View>
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
   product: {
-    shadowColor: "black",
-    shadowOpacity: 0.26,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowRadius: 8,
-    elevation: 5,
-    borderRadius: 10,
-    backgroundColor: "white",
     height: 300,
     margin: 20,
     overflow: "hidden",
@@ -81,12 +72,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    height: "25%",
+    height: "23%",
     paddingHorizontal: 20,
   },
   details: {
     alignItems: "center",
-    height: "15%",
+    height: "17%",
     padding: 5,
   },
   touchable: {
