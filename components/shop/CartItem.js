@@ -28,13 +28,16 @@ function CartItem(props) {
       </View>
       <View style={styles.itemData}>
         <Text style={styles.mainText}>$ {props.amount.toFixed(2)}</Text>
-        <Touchable onPress={props.onRemove} style={styles.deleteButton}>
-          <MaterialCommunityIcons
-            name="trash-can-outline"
-            size={23}
-            color="tomato"
-          />
-        </Touchable>
+
+        {props.deletable && (
+          <Touchable onPress={props.onRemove} style={styles.deleteButton}>
+            <MaterialCommunityIcons
+              name="trash-can-outline"
+              size={23}
+              color="tomato"
+            />
+          </Touchable>
+        )}
       </View>
     </View>
   );
