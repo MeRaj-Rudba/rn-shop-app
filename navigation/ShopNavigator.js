@@ -11,6 +11,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import ProductDetailsScreen from "../screens/shop/ProductDetailsScreen";
 import CartScreen from "../screens/shop/CartScreen";
 import OrdersScreen from "../screens/shop/OrdersScreen";
+import UserProductScreen from "../screens/user/UserProductScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -60,6 +61,18 @@ const OrdersNavigator = () => {
   );
 };
 
+const AdminNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={defaultNavOptions}>
+      <Stack.Screen
+        name="UserProducts"
+        component={UserProductScreen}
+        options={{ title: "User Products" }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 export default function ShopNavigator() {
   return (
     <NavigationContainer>
@@ -95,6 +108,21 @@ export default function ShopNavigator() {
             drawerIcon: ({ focused, color, size }) => (
               <MaterialCommunityIcons
                 name="format-list-bulleted-square"
+                size={size}
+                color={color}
+              />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="AdminDrawer"
+          component={AdminNavigator}
+          options={{
+            headerShown: false,
+            drawerLabel: "Admin",
+            drawerIcon: ({ focused, color, size }) => (
+              <MaterialCommunityIcons
+                name="account-outline"
                 size={size}
                 color={color}
               />
