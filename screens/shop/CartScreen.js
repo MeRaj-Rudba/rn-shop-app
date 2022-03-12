@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View, Text, FlatList, Button } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import CartItem from "../../components/shop/CartItem";
@@ -9,6 +9,14 @@ import * as ordersActions from "../../store/actions/order";
 
 function CartScreen(props) {
   const cartTotalAmount = useSelector((state) => state.cart.totalAmount);
+
+  const { navigation, route } = props;
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: "Your Cart",
+    });
+  }, [navigation]);
 
   const cartItems = useSelector((state) => {
     const transformedCartItems = [];

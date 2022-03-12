@@ -16,6 +16,18 @@ function ProductsOverviewScreen(props) {
   useEffect(() => {
     navigation.setOptions({
       headerTitle: "All Products",
+
+      headerLeft: () => (
+        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+          <Item
+            title="cart"
+            iconName="menu"
+            onPress={() => {
+              navigation.toggleDrawer();
+            }}
+          />
+        </HeaderButtons>
+      ),
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
           <Item
