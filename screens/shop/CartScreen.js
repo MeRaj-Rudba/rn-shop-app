@@ -10,6 +10,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import CartItem from "../../components/shop/CartItem";
 import Card from "../../components/UI/Card";
+import ThemeLoader from "../../components/UI/ThemeLoader";
 
 import Colors from "../../constants/Colors";
 import * as cartActions from "../../store/actions/cart";
@@ -62,7 +63,7 @@ function CartScreen(props) {
           </Text>
         </Text>
         {isLoading ? (
-          <ActivityIndicator size="large" color={Colors.primary} />
+          <ThemeLoader size="small" color={Colors.primary} />
         ) : (
           <Button
             color={Colors.accent}

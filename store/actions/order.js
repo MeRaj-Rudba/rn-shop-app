@@ -1,4 +1,5 @@
 import Order from "../../models/order";
+import InfoVariable from "../../constants/InfoVariable";
 
 export const ADD_ORDER = "ADD_ORDER";
 export const SET_ORDERS = "SET_ORDERS";
@@ -6,9 +7,7 @@ export const SET_ORDERS = "SET_ORDERS";
 export const fetchOrders = () => {
   return async (dispatch) => {
     try {
-      const response = await fetch(
-        "https://rudba-rn-shop-app-default-rtdb.firebaseio.com/orders/u1.json"
-      );
+      const response = await fetch(`${InfoVariable.firebaseUri}orders/u1.json`);
 
       if (!response.ok) {
         throw new Error("Something went wrong!");
@@ -38,20 +37,17 @@ export const fetchOrders = () => {
 export const addOrder = (cartItems, totalAmount) => {
   return async (dispatch) => {
     const date = new Date();
-    const response = await fetch(
-      "https://rudba-rn-shop-app-default-rtdb.firebaseio.com/orders/u1.json",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          cartItems,
-          totalAmount,
-          date: date.toISOString(),
-        }),
-      }
-    );
+    const response = await fetch(`${InfoVariable.firebaseUri}orders/u1.json`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        cartItems,
+        totalAmount,
+        date: date.toISOString(),
+      }),
+    });
 
     if (!response.ok) {
       throw new Error("Something went wrong!");

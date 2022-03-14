@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  Text,
-  ActivityIndicator,
-} from "react-native";
+import { StyleSheet, View, FlatList, Text } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useSelector, useDispatch } from "react-redux";
 import OrderItem from "../../components/shop/OrderItem";
 import * as orderActions from "../../store/actions/order";
 import CustomHeaderButton from "../../components/UI/HeaderButton";
 import Colors from "../../constants/Colors";
+import ThemeLoader from "../../components/UI/ThemeLoader";
 
 function OrdersScreen(props) {
   const [isLoading, setIsLoading] = useState(false);
@@ -44,11 +39,7 @@ function OrdersScreen(props) {
   }, [navigation]);
 
   if (isLoading) {
-    return (
-      <View style={styles.centered}>
-        <ActivityIndicator size="large" color={Colors.primary} />
-      </View>
-    );
+    return <ThemeLoader size="large" color={Colors.primary} />;
   }
   if (!isLoading && orders.length === 0) {
     return (

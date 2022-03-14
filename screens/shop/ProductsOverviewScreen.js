@@ -1,12 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  Button,
-  Text,
-  ActivityIndicator,
-} from "react-native";
+import { View, StyleSheet, FlatList, Button, Text } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
@@ -15,6 +8,7 @@ import * as cartActions from "../../store/actions/cart";
 import * as productsActions from "../../store/actions/products";
 import CustomHeaderButton from "../../components/UI/HeaderButton";
 import Colors from "../../constants/Colors";
+import ThemeLoader from "../../components/UI/ThemeLoader";
 
 function ProductsOverviewScreen(props) {
   const { navigation, route } = props;
@@ -98,11 +92,7 @@ function ProductsOverviewScreen(props) {
   }
 
   if (isLoading) {
-    return (
-      <View style={styles.centered}>
-        <ActivityIndicator size="large" color={Colors.primary} />
-      </View>
-    );
+    return <ThemeLoader size="large" color={Colors.primary} />;
   }
   if (!isLoading && products.length === 0) {
     return (
