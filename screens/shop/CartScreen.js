@@ -1,5 +1,12 @@
-import React, { useEffect } from "react";
-import { StyleSheet, View, Text, FlatList, Button } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+  Button,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import CartItem from "../../components/shop/CartItem";
 import Card from "../../components/UI/Card";
@@ -10,6 +17,8 @@ import * as ordersActions from "../../store/actions/order";
 
 function CartScreen(props) {
   const cartTotalAmount = useSelector((state) => state.cart.totalAmount);
+  const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState();
 
   const { navigation, route } = props;
 
@@ -36,6 +45,12 @@ function CartScreen(props) {
   });
   const dispatch = useDispatch();
 
+  const sendOrderHandler = async () => {
+    setIsLoading(true);
+    await dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
+    setIsLoading(false);
+  };
+
   return (
     <View style={styles.screen}>
       <Card style={styles.summary}>
@@ -46,14 +61,16 @@ function CartScreen(props) {
             $ {Math.round(cartTotalAmount.toFixed(2) * 100) / 100}
           </Text>
         </Text>
-        <Button
-          color={Colors.accent}
-          title="Order Now"
-          disabled={cartItems.length === 0}
-          onPress={() => {
-            dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
-          }}
-        />
+        {isLoading ? (
+          <ActivityIndicator size="large" color={Colors.primary} />
+        ) : (
+          <Button
+            color={Colors.accent}
+            title="Order Now"
+            disabled={cartItems.length === 0}
+            onPress={sendOrderHandler}
+          />
+        )}
       </Card>
       <FlatList
         data={cartItems}
@@ -91,6 +108,11 @@ const styles = StyleSheet.create({
   },
   amount: {
     color: Colors.primary,
+  },
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

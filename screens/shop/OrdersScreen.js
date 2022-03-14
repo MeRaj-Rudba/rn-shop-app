@@ -1,13 +1,30 @@
-import React, { useEffect } from "react";
-import { StyleSheet, View, FlatList, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  Text,
+  ActivityIndicator,
+} from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import OrderItem from "../../components/shop/OrderItem";
+import * as orderActions from "../../store/actions/order";
 import CustomHeaderButton from "../../components/UI/HeaderButton";
+import Colors from "../../constants/Colors";
 
 function OrdersScreen(props) {
+  const [isLoading, setIsLoading] = useState(false);
   const orders = useSelector((state) => state.orders.orders);
   const { navigation, route } = props;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setIsLoading(true);
+    dispatch(orderActions.fetchOrders()).then((res) => {
+      setIsLoading(false);
+    });
+  }, [dispatch]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -26,6 +43,22 @@ function OrdersScreen(props) {
     });
   }, [navigation]);
 
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
+  if (!isLoading && orders.length === 0) {
+    return (
+      <View style={styles.centered}>
+        <Text>No Product found!</Text>
+        <Text>Start Adding Some</Text>
+      </View>
+    );
+  }
+
   return (
     <FlatList
       data={orders}
@@ -42,7 +75,11 @@ function OrdersScreen(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 
 export default OrdersScreen;

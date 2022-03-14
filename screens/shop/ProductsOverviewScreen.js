@@ -20,18 +20,19 @@ function ProductsOverviewScreen(props) {
   const { navigation, route } = props;
   const products = useSelector((state) => state.products.availableProducts);
   const [isLoading, setIsLoading] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
 
   const loadProducts = useCallback(async () => {
     setError(null);
-    setIsLoading(true);
+    setIsRefreshing(true);
     try {
       await dispatch(productsActions.fetchProducts()).then();
     } catch (error) {
       setError(error.message);
     }
-    setIsLoading(false);
+    setIsRefreshing(false);
   }, [dispatch, setIsLoading, setError]);
 
   useEffect(() => {
@@ -41,7 +42,10 @@ function ProductsOverviewScreen(props) {
   }, [navigation]);
 
   useEffect(() => {
-    loadProducts();
+    setIsLoading(true);
+    loadProducts().then(() => {
+      setIsLoading(false);
+    });
   }, [dispatch, loadProducts]);
 
   useEffect(() => {
@@ -110,6 +114,8 @@ function ProductsOverviewScreen(props) {
   }
   return (
     <FlatList
+      onRefresh={loadProducts}
+      refreshing={isRefreshing}
       data={products}
       keyExtractor={(item) => item.id}
       renderItem={(itemData) => (
