@@ -1,11 +1,11 @@
 export default {
-  // //Main
-  // primary: "#c2185b",
-  // accent: "#ffc107",
+  //Main
+  primary: "#c2185b",
+  accent: "#ffc107",
 
-  // option2
-  primary: "#F24738",
-  accent: "#246B73",
+  // // option2
+  // primary: "#F24738",
+  // accent: "#246B73",
 
   // //option3
   // primary: "#538C2A",
