@@ -7,7 +7,9 @@ export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 export const SET_PRODUCT = "SET_PRODUCT";
 
 export const fetchProducts = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const userId = getState().auth.userId;
     //any async code i want
 
     try {
@@ -21,7 +23,7 @@ export const fetchProducts = () => {
         loadedProducts.push(
           new Product(
             key,
-            "u1",
+            resData[key].ownerId,
             resData[key].title,
             resData[key].imageUrl,
             resData[key].description,
@@ -29,7 +31,12 @@ export const fetchProducts = () => {
           )
         );
       }
-      dispatch({ type: SET_PRODUCT, products: loadedProducts });
+
+      dispatch({
+        type: SET_PRODUCT,
+        products: loadedProducts,
+        userProducts: loadedProducts.filter((prod) => prod.ownerId === userId),
+      });
     } catch (error) {
       // console.log(error);
       throw error;
@@ -39,9 +46,10 @@ export const fetchProducts = () => {
 };
 
 export const deleteProduct = (productId) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
     const response = await fetch(
-      `${InfoVariable.firebaseUri}products/${productId}.json`,
+      `${InfoVariable.firebaseUri}products/${productId}.json?auth=${token}`,
       {
         method: "DELETE",
       }
@@ -54,20 +62,26 @@ export const deleteProduct = (productId) => {
 };
 
 export const createProduct = (title, description, imageUrl, price) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const userId = getState().auth.userId;
     //any async code i want
-    const response = await fetch(`${InfoVariable.firebaseUri}products.json`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title,
-        description,
-        imageUrl,
-        price,
-      }),
-    });
+    const response = await fetch(
+      `${InfoVariable.firebaseUri}products.json?auth=${token}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          imageUrl,
+          price,
+          ownerId: userId,
+        }),
+      }
+    );
 
     const resData = await response.json();
     console.log(resData);
@@ -80,15 +94,17 @@ export const createProduct = (title, description, imageUrl, price) => {
         description,
         imageUrl,
         price,
+        ownerId: userId,
       },
     });
   };
 };
 
 export const updateProduct = (id, title, description, imageUrl) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
     const response = await fetch(
-      `${InfoVariable.firebaseUri}products/${id}.json`,
+      `${InfoVariable.firebaseUri}products/${id}.json?auth=${token}`,
       {
         method: "PATCH",
         headers: {

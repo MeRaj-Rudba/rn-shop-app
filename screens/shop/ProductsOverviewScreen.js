@@ -22,7 +22,7 @@ function ProductsOverviewScreen(props) {
     setError(null);
     setIsRefreshing(true);
     try {
-      await dispatch(productsActions.fetchProducts()).then();
+      await dispatch(productsActions.fetchProducts());
     } catch (error) {
       setError(error.message);
     }
