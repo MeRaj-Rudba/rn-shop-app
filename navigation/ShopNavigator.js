@@ -16,6 +16,7 @@ import UserProductScreen from "../screens/user/UserProductScreen";
 import EditProductScreen from "../screens/user/EditProductScreen";
 import { useState } from "react";
 import AuthScreen from "../screens/user/AuthScreen";
+import StartUpScreen from "../screens/StartUpScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -84,6 +85,11 @@ const AdminNavigator = () => {
 const AuthNavigator = () => {
   return (
     <Stack.Navigator screenOptions={defaultNavOptions}>
+      <Stack.Screen
+        name="StartUp"
+        component={StartUpScreen}
+        options={{ title: "Welcome" }}
+      />
       <Stack.Screen
         name="Auth"
         component={AuthScreen}
