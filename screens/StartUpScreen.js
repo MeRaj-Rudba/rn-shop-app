@@ -24,7 +24,9 @@ function StartUpScreen(props) {
         return;
       }
       //navigate to the shop
-      dispatch(authActions.authenticate(userId, token));
+      const expirationTime = expirationDate.getTime() - new Date().getTime();
+
+      dispatch(authActions.authenticate(userId, token, expirationTime));
     };
     trySignIn();
   }, [dispatch]);
